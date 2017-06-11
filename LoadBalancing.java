@@ -7,6 +7,38 @@ public class LoadBalancing {
 		System.out.println(1);
 	}
 
+	class Machine implements Comparable<Machine>{
+		private int id;
+		private int currentLoad;
+
+		public Machine(int id){
+			this.id=id;
+			currentLoad=0;
+		}
+		
+		public int getId(){
+			return id;
+		}
+		
+		public int getCurrentLoad(){
+			return currentLoad;
+		}		
+		public void setCurrentLoad(int load){
+			currentLoad = load;
+		}
+
+		@Override
+		public int compareTo(Machine otherMachine) {
+			return getCurrentLoad() - otherMachine.getCurrentLoad();
+		}
+		
+		@Override
+		public String toString(){
+			return "Machine "+id+": Current Load="+currentLoad;
+		}
+	}
+
+
 	public static void main(String[] args) {
 		LoadBalancing loadBalancer = new LoadBalancing();
 		int[][] jobs1 = {
