@@ -4,28 +4,28 @@ public class LoadBalancing {
 	public void balanceMachines(int machineCount, int[][] jobs){
 		Arrays.sort(jobs, (a, b) -> -Integer.compare(a[1], b[1]));	//Sort by  longest processing time 1st
 
-		ArrayList<ArrayList<ArrayList<Integer>>> jobsForMachine = new ArrayList<ArrayList<ArrayList<Integer>>>();
+	// ArrayList<ArrayList<ArrayList<Integer>>> jobsForMachine = new ArrayList<ArrayList<ArrayList<Integer>>>();
 		PriorityQueue<Machine> loads = new PriorityQueue<Machine>();
 		for(int i=0; i<machineCount; i++){
 			loads.add(new Machine(i));
-			jobsForMachine.add(new ArrayList<ArrayList<Integer>>());
+	// jobsForMachine.add(new ArrayList<ArrayList<Integer>>());
 		}
 		
 		for(int j=0; j<jobs.length; j++){
 			Machine smallestLoadMachine = loads.remove();
-			int i=smallestLoadMachine.getId();
-			int jobProcessingTime = jobs[j][1];
-			jobsForMachine.get(i).add(new ArrayList<Integer>(Arrays.asList(jobs[j][0], jobProcessingTime)) );
-
 			int jobId=jobs[j][0];
+			int jobProcessingTime = jobs[j][1];
+		// int i=smallestLoadMachine.getId();
+		// jobsForMachine.get(i).add(new ArrayList<Integer>(Arrays.asList(jobs[j][0], jobProcessingTime)) );
+
+		System.out.println(smallestLoadMachine);
+
 			smallestLoadMachine.addJob(jobId, jobProcessingTime);
-			
-			System.out.println(smallestLoadMachine);
 
 			smallestLoadMachine.setCurrentLoad(smallestLoadMachine.getCurrentLoad() + jobProcessingTime);
 			loads.add(smallestLoadMachine);		//Adding machine back does increaseKey
 
-			System.out.println(smallestLoadMachine+"\n");
+		System.out.println(smallestLoadMachine+"\n");
 		}
 		
 		int makespan = 0;
