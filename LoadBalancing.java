@@ -2,43 +2,38 @@ import java.util.*;
 
 public class LoadBalancing {
 	public void balanceMachines(int machineCount, int[][] jobs){
-		Arrays.sort(jobs, (a, b) -> -Integer.compare(a[1], b[1]));	//Sort by  longest processing time 1st
+		Arrays.sort(jobs, (a, b) -> -Integer.compare(a[1], b[1]));	//Sort by longest processing time 1st
 
-	// ArrayList<ArrayList<ArrayList<Integer>>> jobsForMachine = new ArrayList<ArrayList<ArrayList<Integer>>>();
-		PriorityQueue<Machine> loads = new PriorityQueue<Machine>();
-		for(int i=1; i<=machineCount; i++){
-			loads.add(new Machine(i));
-	// jobsForMachine.add(new ArrayList<ArrayList<Integer>>());
+		PriorityQueue<Machine> machineLoads = new PriorityQueue<Machine>();
+		for(int i=1; i<=machineCount; i++){		//Initialize empty machines
+			machineLoads.add(new Machine(i));
 		}
 		
+		//Assign jobs to machines
 		for(int j=0; j<jobs.length; j++){
-			Machine smallestLoadMachine = loads.remove();
+			Machine smallestLoadMachine = machineLoads.remove();		//temporarily remove machine with smallest load
 			int jobId=jobs[j][0];
 			int jobProcessingTime = jobs[j][1];
-		// int i=smallestLoadMachine.getId();
-		// jobsForMachine.get(i).add(new ArrayList<Integer>(Arrays.asList(jobs[j][0], jobProcessingTime)) );
-
-		// System.out.println(smallestLoadMachine);
 
 			smallestLoadMachine.addJob(jobId, jobProcessingTime);
+			smallestLoadMachine.setCurrentLoad(smallestLoadMachine.getCurrentLoad() + jobProcessingTime);	//Update machine's current load with new new job processing time
 
-			smallestLoadMachine.setCurrentLoad(smallestLoadMachine.getCurrentLoad() + jobProcessingTime);
-			loads.add(smallestLoadMachine);		//Adding machine back does increaseKey
-
-		// System.out.println(smallestLoadMachine+"\n");
+			machineLoads.add(smallestLoadMachine);		//Adding machine back does increaseKey
 		}
 		
-		int makespan = loads.peek().getCurrentLoad();
-		int makespanMachineId = loads.peek().getId();
+		//Display Job assignments & find makespan
+		int makespan = machineLoads.peek().getCurrentLoad();
+		int makespanMachineId = machineLoads.peek().getId();
 		System.out.println("Jobs Assignments:");
-		while(!loads.isEmpty()){
-			Machine machine = loads.remove();
+		while(!machineLoads.isEmpty()){
+			Machine machine = machineLoads.remove();
 			int machineLoad = machine.getCurrentLoad();
 			System.out.println("Machine "+machine.getId()+"   (Load="+machineLoad+"):"  +"\nJobs in Order Assigned");
-			if(machineLoad>makespan){
+			if(machineLoad>makespan){	//Update makespan if a larger number is found
 				makespan=machineLoad;
 				makespanMachineId=machine.getId();
 			}
+			//Print the jobs assigned to the machine
 			ArrayList<ArrayList<Integer>> assignedJobs = machine.getJobs();
 			for(ArrayList<Integer> job : assignedJobs){
 				System.out.println("Job "+job.get(0)+" (Processing Time="+job.get(1)+")");
@@ -77,7 +72,7 @@ public class LoadBalancing {
 			return jobs;
 		}
 
-		@Override
+		@Override			//Override to allow Priority Queue functionality
 		public int compareTo(Machine otherMachine) {
 			return getCurrentLoad() - otherMachine.getCurrentLoad();
 		}
@@ -86,7 +81,6 @@ public class LoadBalancing {
 		public String toString(){
 			return "Machine "+getId()+": Current load="+getCurrentLoad()+"  Jobs="+jobs;
 		}
-		
 	}
 
 
@@ -123,5 +117,4 @@ public class LoadBalancing {
 						};
 		loadBalancer.balanceMachines(machineCount3, jobs3);
 	}
-
 }
