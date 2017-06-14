@@ -6,7 +6,7 @@ public class LoadBalancing {
 
 	// ArrayList<ArrayList<ArrayList<Integer>>> jobsForMachine = new ArrayList<ArrayList<ArrayList<Integer>>>();
 		PriorityQueue<Machine> loads = new PriorityQueue<Machine>();
-		for(int i=0; i<machineCount; i++){
+		for(int i=1; i<=machineCount; i++){
 			loads.add(new Machine(i));
 	// jobsForMachine.add(new ArrayList<ArrayList<Integer>>());
 		}
@@ -18,24 +18,26 @@ public class LoadBalancing {
 		// int i=smallestLoadMachine.getId();
 		// jobsForMachine.get(i).add(new ArrayList<Integer>(Arrays.asList(jobs[j][0], jobProcessingTime)) );
 
-		System.out.println(smallestLoadMachine);
+		// System.out.println(smallestLoadMachine);
 
 			smallestLoadMachine.addJob(jobId, jobProcessingTime);
 
 			smallestLoadMachine.setCurrentLoad(smallestLoadMachine.getCurrentLoad() + jobProcessingTime);
 			loads.add(smallestLoadMachine);		//Adding machine back does increaseKey
 
-		System.out.println(smallestLoadMachine+"\n");
+		// System.out.println(smallestLoadMachine+"\n");
 		}
 		
-		int makespan = 0;
+		int makespan = loads.peek().getCurrentLoad();
+		int makespanMachineId = loads.peek().getId();
 		System.out.println("Jobs Assignments:");
-		for(int i=0;  !loads.isEmpty();  i++){
+		while(!loads.isEmpty()){
 			Machine machine = loads.remove();
 			int machineLoad = machine.getCurrentLoad();
 			System.out.println("Machine "+machine.getId()+"   (Load="+machineLoad+"):"  +"\nJobs in Order Assigned");
 			if(machineLoad>makespan){
 				makespan=machineLoad;
+				makespanMachineId=machine.getId();
 			}
 			ArrayList<ArrayList<Integer>> assignedJobs = machine.getJobs();
 			for(ArrayList<Integer> job : assignedJobs){
@@ -43,7 +45,7 @@ public class LoadBalancing {
 			}
 			System.out.println();
 		}
-		System.out.println("\nMakespen="+makespan+"\n");
+		System.out.println("Makespan="+makespan+" (From Machine "+makespanMachineId+")\n\n");
 		
 	}
 
@@ -94,11 +96,11 @@ public class LoadBalancing {
 		int[][] jobs1 = {
 						{1, 2},
 						{2, 2},
-						{3, 3},
-						{4, 1},
-						{5, 4}
+						{3, 2},
+						{4, 2},
+						{5, 5}
 						};
-		// loadBalancer.balanceMachines(machineCount1, jobs1);
+		loadBalancer.balanceMachines(machineCount1, jobs1);
 
 		int machineCount2 = 3;
 		int[][] jobs2 = {
@@ -109,6 +111,17 @@ public class LoadBalancing {
 						{5, 19}
 						};
 		loadBalancer.balanceMachines(machineCount2, jobs2);
+
+		int machineCount3 = 3;
+		int[][] jobs3 = {
+						{1, 2},
+						{2, 2},
+						{3, 6},
+						{4, 3},
+						{5, 4},
+						{6, 2}
+						};
+		loadBalancer.balanceMachines(machineCount3, jobs3);
 	}
 
 }
