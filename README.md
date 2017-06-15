@@ -32,7 +32,10 @@ Proof involves complicated sigma notation and can be found in the references
 <img src="images/jobs1.png" >
 
 ### Jobs1 Machine Assignments
-<img src="images/jobs1-machine-assignments.png" >
+<img src="images/jobs1-machine-assignments.png" width="400">
+
+
+<br>
 
 ### Jobs2 Inputs
 <img src="images/jobs2.png" >
@@ -40,11 +43,14 @@ Proof involves complicated sigma notation and can be found in the references
 ### Jobs2 Machine Assignments
 <img src="images/jobs2-machine-assignments.png" >
 
+
+<br>
+
 ### Jobs3 Inputs
 <img src="images/jobs3.png" >
 
 ### Jobs3 Machine Assignments
-<img src="images/jobs3-machine-assignments.png" >
+<img src="images/jobs3-machine-assignments.png" width="450">
 
 
 ## Usage
