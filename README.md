@@ -1,15 +1,15 @@
 # Load Balancing Problem Approximation Algorithm
-Approximation Algorithm for balancing loads on machines. (Could be applied to processes management on a CPU). Does not guarantee an optimal solution, but instead, the algorithm guarantees that its solution is within a factor of 1.5 of the optimal solution.
+Approximation Algorithm for balancing job loads on machines. (Could be applied to processes management on a CPU). Does not guarantee an optimal solution, but instead, a solution is within a factor of 1.5 of the optimal solution.
 
 ## Problem Statement
 - `M` identical machines
 - `N` jobs
 - Each jobs has processing time **T<sub>j</sub>**
-- Let `J(i)` be the subset of jobs assigned to machine `i`
-- The load of machine `i` is **L<sub>i</sub>** = sum of the processing times for the jobs
+- `J(i)` is the subset of jobs assigned to machine `i`
+- The load of machine `i` is **L<sub>i</sub>** = sum of the processing times for the jobs on that machine
 
 **Makespan** = the maximum of the loads on the machines (the machine with the largest load)  
-***Goal:* Minimize the Makespan**
+**Goal: Minimize the Makespan**
 
 ## Solution
 Assign each job to a machine to minimize makespan  
@@ -56,20 +56,20 @@ Proof involves complicated sigma notation and can be found in the references
 ## Usage
 **Machine ID's are meaningless since machines are identical, they're created for readability.  
 But the algorithm still creates the job assignments on the machines according to the greedy strategy**  
-- `int machineCount` parameter for `balanceMachines()` is how many machines exist in the problem
+- `int machineCount` parameter is how many machines there are
 - `int[][] jobs` is a 2D array containing the jobs
   - `jobs[i]` is an array represents a job
   - `jobs[i][0]` is the **Job Id or name**
   - `jobs[i][1]` is the **Processing time**
 
 ## Code Details
-- Unlike the pseudocode, this version keeps the jobs assigned to a machine inside the `Machine` object in the Priority Queue
+- Unlike the pseudocode, the jobs assigned to a machine are inside the `Machine` object in the Priority Queue
 - 1st Creates `M` machines with unique Id's
-- Then loop over the jobs and assign the job with the longest processing time to the smallest load machine
+- Then loop over the jobs and assigns the job with the longest processing time to the machine with the smallest current load
   - Java's Priority Queue doesn't really have an `IncreaseKey()` method so the same effect is achieved by removing the machine from the Queue, updating the Machine's `currentLoad` and then adding the Machine back to the Queue
 - `Machine` class represents a machine
   - **Some Important Parts of a Machine**
-  - `id` is the **id or name of the machine**
+  - `id` is the **ID or name of the machine**
   - `currentLoad` is the sum of the processing times of the jobs currently assigned to the machine
   - `jobs` is a 2D ArrayList containing the jobs currently assigned to the machine
   - `Machine` class **overrides** `compareTo()` from the `Comparable` interface so that the `PriotityQueue is always has the smallest load machine at the top
