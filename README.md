@@ -1,5 +1,5 @@
 # Load Balancing Problem Approximation Algorithm
-Approximation Algorithm for balancing job loads on machines. (Could be applied to processes management on a CPU). Does not guarantee an optimal solution, but instead, a solution is within a factor of 1.5 of the optimal solution.
+Approximation Algorithm for the NP-Complete problem of balancing job loads on machines. (Could be applied to processes management on a CPU). Does not guarantee an optimal solution, but instead, a solution is within a factor of 1.5 of the optimal solution.
 
 ## Problem Statement
 - `M` identical machines
